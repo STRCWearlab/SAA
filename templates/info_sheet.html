@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block body %}
+
+
+<div class="row text-center mt-3"><h3>PARTICIPANT INFORMATION SHEET</h3></div>
+
+<div class="row mt-3"><p>Please take your time to read this information sheet and confirm that you understand its content at the bottom. You'll be send a copy of this sheet via email if you decide to take part in the study. If you have any questions feel free to ask the research assistant conducting the study at this point.</p></div>
+
+<div class="row mt-3"><h4>STUDY TITLE</h4></div>
+Smart Annotation Assistance User Study
+
+<div class="row mt-3"><h4>INVITATION PARAGRAPH</h4></div>
+You are being invited to take part in a research study. Before you decide whether or not to take part, it is
+important for you to understand why the research is being done and what it will involve. Please take time to
+read the following information carefully.
+
+<div class="row mt-3"><h4>WHAT IS THE PURPOSE OF THE STUDY?</h4></div>
+The aim of the study is to evaluate the potential of AI assistance in user interfaces, particularly annotation tools for time-series data.
+
+<div class="row mt-3"><h4>WHY HAVE I BEEN INVITED TO PARTICIPATE?</h4></div>
+We are looking for computer literate individuals aged 18+. Experience with activity recognition and sensor signals is desired but optional.
+
+<div class="row mt-3"><h4>DO I HAVE TO TAKE PART?</h4></div>
+It is up to you to decide whether or not to take part. If you do decide to take part you will be given this
+information sheet to keep and be asked to sign a consent form. If you decide to take part you are still free to
+withdraw at any time and without giving a reason.
+
+<div class="row mt-3"><h4>WHAT WILL HAPPEN TO ME IF I TAKE PART?</h4></div>
+You will be provided instructional material to explain how to annotate human activities based on
+accelerometer sensor signals. You will then perform an annotation task on a computer both with and
+without AI assistance. After both tasks you will be asked to fill out a questionnaire about your experience.
+
+<div class="row mt-3"><h4>WHAT ARE THE POSSIBLE DISADVANTAGES AND RISKS OF TAKING PART?</h4></div>
+Participating in the study will take up to two hours of your time. It involves mainly screen work, which might
+cause visual fatigue and eye strain.
+
+<div class="row mt-3"><h4>WHAT ARE THE POSSIBLE BENEFITS OF TAKING PART?</h4></div>
+You will be compensated for your time with a £20 Amazon voucher.
+
+<div class="row mt-3"><h4>WILL MY INFORMATION IN THIS STUDY BE KEPT CONFIDENTIAL?</h4></div>
+Your information will remain confidential in any written reports, stored data or published material of this
+research. Data related to your personal information will be unlinked and anonymised. This data will be
+stored in a de-identified way (e.g. using ID numbers not names), and kept separate from other details about
+you.
+
+<div class="row mt-3"><h4>WHAT WILL HAPPEN TO THE RESULTS OF THE RESEARCH STUDY?</h4></div>
+The results of this research may be written into scientific reports for publication in academic venues. Your
+anonymity will be ensured in the way described before. If you are interested in copies of the published
+research, you can contact any researcher involved in the project.
+
+<div class="row mt-3"><h4>WHO IS ORGANISING AND FUNDING THE RESEARCH?</h4></div>
+This research is conducted by students and staff members of the University of Sussex, School of
+Engineering and Informatics.
+
+<div class="row mt-3"><h4>WHO HAS APPROVED THIS STUDY?</h4></div>
+The research has been approved by the Sciences & Technology Cross-Schools Research Ethics
+Committee (C-REC). The ethical review application number of the study is ER/LG375/1
+
+<div class="row mt-3"><h4>CONTACT FOR FURTHER INFORMATION</h4></div>
+If you have any concerns relating to this project please contact:<br>
+<br>
+Lukas Gunthermann (PhD Student, Project Coordinator)<br>
+L.Gunthermann@sussex.ac.uk<br>
+<br>
+Ivor Simpson (Senior Lecturer in Artificial Intelligence, Project Supervisor)<br>
+I.Simpson@sussex.ac.uk<br>
+<br>
+The Chair of the Science and Technology Cross Schools Research Ethics Committee<br>
+crecscitec@sussex.ac.uk<br>
+
+<div class="row mt-3"><h4>INSURANCE</h4></div>
+The University of Sussex has insurance in place to cover its legal liabilities in respect of this study.
+
+<div class="row mt-5"></div>
+
+<div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="checkConfirm">
+    <label class="form-check-label" for="checkConfirm">
+        I confirm that I have read and understand this information sheet and had the chance to ask any questions. 
+    </label>
+</div>
+
+<form action="/" method="post">
+  <div class="text-center mt-2 mb-5">
+    <input type="submit" class="btn btn-primary" id="btn1" disabled="" value="Submit"/>
+  </div> 
+</form>
+
+{% endblock %}
+
+{% block script %}
+<script>
+$('.form-check-input').change(function() {
+    if ($('.form-check-input:checked').length > 0) {
+      $('#btn1').prop('disabled', false);
+    } else {
+      $('#btn1').prop('disabled', true);
+    }
+  });
+</script>
+{% endblock %}

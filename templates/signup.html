@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="row text-center mt-3"><h3>PERSONAL DETAILS</h3></div>
+
+<div class="row mt-3"><p>We gather some personal details to address potential biases in the data collected. Your personal information will be anonymised by being stored seperately from your email adress.</p></div>
+
+
+<div class="row mt-2"></div>
+
+<form action="/" method="post">
+
+  <div class="mb-3">
+    <label for="InputEmail" class="form-label">Email address</label>
+    <input type="email" class="form-control" name="InputEmail" aria-describedby="emailHelp" required="required">
+    <div id="emailHelp" class="form-text">Please make sure your email address is correct, so you can receive your compensation voucher. Your email will only be used to send you the voucher, the participation information sheet, and your unique identifier. Your email address won't be given to anybody else.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="InputAge" class="form-label">Age</label>
+    <input type="number" class="form-control" name="InputAge" aria-describedby="ageHelp" required="required">
+    <div id="ageHelp" class="form-text">Please enter your age in years.</div>
+  </div>
+
+  <div class="mb-3">
+    <select class="form-control" name="InputEthnic" aria-describedby="ethnicHelp" required>
+      <option value="" selected disabled>Ethnic Background</option>
+      <option value="1">Arab</option>
+      <option value="2">Asian or Asian British – Indian</option>
+      <option value="3">Asian or Asian British – Pakistani</option>
+      <option value="4">Asian or Asian British – Bangladeshi</option>
+      <option value="5">Asian or Asian British – any other Asian background</option>
+      <option value="6">Black or Black British – Caribbean</option>
+      <option value="7">Black or Black British – African</option>
+      <option value="8">Black or Black British – any other Black background</option>
+      <option value="9">Chinese</option>
+      <option value="10">Mixed – White and Black Caribbean</option>
+      <option value="11">Mixed – White and Black African</option>
+      <option value="12">Mixed – White and Asian</option>
+      <option value="13">Mixed – Any other mixed background</option>
+      <option value="14">White – British</option>
+      <option value="15">White – Irish</option>
+      <option value="16">White – any other White background</option>
+      <option value="17">Any other ethnic origin group</option>
+    </select>
+    <div id="ethnicHelp" class="form-text">Please select the option which most resembles your ethnic background.</div>
+  </div>
+
+  <div class="mb-3">
+    <select class="form-control" name="InputSex" aria-describedby="sexHelp" required>
+      <option value="" selected disabled>Sex</option>
+      <option value="F">Female</option>
+      <option value="M">Male</option>
+      <option value="I">Intersex/DSD</option>
+    </select>
+    <div id="sexHelp" class="form-text">Please select which sex you were registered with at birth.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="InputComp" class="form-label">On a scale from very low to very high, how proficient do you rank yourself operating a computer?</label>
+    <input type="range" class="form-range" name="InputComp" min="1" max="5" value="3">
+  </div>
+
+  <div class="mb-3">
+    <label for="InputSensor" class="form-label">On a scale from very low to very high, how proficient do you rank yourself identifying accelerometer-based sensor signals?</label>
+    <input type="range" class="form-range" name="InputSensor" min="1" max="5" value="3">
+  </div>
+
+  <div class="mb-3">
+    <label for="InputWrist" class="form-label">On a scale from very unlikely to very likely, how likely are you to experience wrist-pain, when working on a computer for a long period of time (up to 2h)?</label>
+    <input type="range" class="form-range" name="InputWrist" min="1" max="5" value="3">
+  </div>
+
+  <div class="mb-3">
+    <label for="InputHead" class="form-label">On a scale from very unlikely to very likely, how likely are you to experience headaches / migraine symptoms, when working on a computer for a long period of time (up to 2h)?</label>
+    <input type="range" class="form-range" name="InputHead" min="1" max="5" value="3">
+  </div>
+
+  <div class="mb-3">
+    <label for="InputEye" class="form-label">On a scale from very unlikely to very likely, how likely are you to experience eye strain symptoms or light-sensitive reactions, when working on a computer for a long period of time (up to 2h)?</label>
+    <input type="range" class="form-range" name="InputEye" min="1" max="5" value="3">
+  </div>
+
+  <div class="text-center mt-2 mb-5">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
+
+{% endblock %}
+
+{% block script %}
+<script>
+// $('.form-check-input').change(function() {
+//     if ($('.form-check-input:checked').length > 0) {
+//       $('#btn1').prop('disabled', false);
+//     } else {
+//       $('#btn1').prop('disabled', true);
+//     }
+//   });
+</script>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="row text-center mt-3"><h3>NASA TLX</h3></div>
+
+<div class="row mt-3"><p>Hart and Staveland's NASA Task Load Index (TLX) method assesses work load on five 7-point scales. Increments of high, medium and low estimates for each point result in 21 gradations on the scales.</p></div>
+
+
+<div class="row mt-2"></div>
+
+<form action="/" method="post">
+
+  <div class="mb-3">
+    <label for="InputMental" class="form-label">On a scale from very low to very high, how mentally demanding was the task?</label>
+    <input type="range" class="form-range" name="InputMental" min="0" max="20" value="10" step=1>
+  </div>
+
+  <div class="mb-3">
+    <label for="InputPhysical" class="form-label">On a scale from very low to very high, how physically demanding was the task?</label>
+    <input type="range" class="form-range" name="InputPhysical" min="0" max="20" value="10" step=1>
+  </div>
+
+  <div class="mb-3">
+    <label for="InputTemporal" class="form-label">On a scale from very low to very high, how hurried or rushed was the pace of the task?</label>
+    <input type="range" class="form-range" name="InputTemporal" min="0" max="20" value="10" step=1>
+  </div>
+
+  <div class="mb-3">
+    <label for="InputPerformance" class="form-label">On a scale from very low to very high, how successful were you in accomplishing what you were asked to do?</label>
+    <input type="range" class="form-range" name="InputPerformance" min="0" max="20" value="10" step=1>
+  </div>
+
+  <div class="mb-3">
+    <label for="InputEffort" class="form-label">On a scale from very low to very high, how hard did you have to work to accomplish your level of performance?</label>
+    <input type="range" class="form-range" name="InputEffort" min="0" max="20" value="10" step=1>
+  </div>
+
+  <div class="mb-3">
+    <label for="InputFrustration" class="form-label">On a scale from very low to very high, how insecure, discouraged, irritated, stressed, and annoyed were you?</label>
+    <input type="range" class="form-range" name="InputFrustration" min="0" max="20" value="10" step=1>
+  </div>
+
+  
+
+  <div class="text-center mt-2 mb-5">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
+
+{% endblock %}

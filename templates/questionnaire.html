@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="row text-center mt-3"><h3>Feedback Questionnaire</h3></div>
+
+<div class="row mt-3"><p>Please describe your general experience with the annotation tool.</p></div>
+
+
+<div class="row mt-2"></div>
+
+<form action="/" method="post">
+
+  <div class="mb-3">
+    <label for="InputBaseExperience" class="form-label">On a scale from very low to very high, how would you rank the <b>unassisted tool</b> based on how suited it is to solve the task that was given?</label>
+    <input type="range" class="form-range" name="InputBaseExperience" min="0" max="20" value="10" step=1>
+  </div>
+
+  <div class="mb-3">
+    <label for="InputBaseConfidence" class="form-label">On a scale from very low to very high, how confident did you feel about your annotations with the <b>unassisted tool</b>?</label>
+    <input type="range" class="form-range" name="InputBaseConfidence" min="0" max="20" value="10" step=1>
+  </div>
+
+  <div class="mb-3">
+    <label for="InputAssistExperience" class="form-label">On a scale from very low to very high, how would you rank the <b>assisted tool</b> based on how suited it is to solve the task that was given?</label>
+    <input type="range" class="form-range" name="InputAssistExperience" min="0" max="20" value="10" step=1>
+  </div>
+
+  <div class="mb-3">
+    <label for="InputAssistConfidence" class="form-label">On a scale from very low to very high, how confident did you feel about your annotations with the <b>assisted tool</b>?</label>
+    <input type="range" class="form-range" name="InputAssistConfidence" min="0" max="20" value="10" step=1>
+  </div>
+
+
+
+  <div class="mb-3">
+    <label for="InputAssistImpactGeneral" class="form-label">On a scale from very negative to very positive, how would you describe the impact of the annotation assistance in general?</label>
+    <input type="range" class="form-range" name="InputAssistImpactGeneral" min="0" max="20" value="10" step=1>
+  </div>
+
+  <div class="mb-3">
+    <label for="InputAssistImpactTime" class="form-label">On a scale from very negative to very positive, how would you describe the impact of the annotation assistance on the time it took to perform annotations?</label>
+    <input type="range" class="form-range" name="InputAssistImpactTime" min="0" max="20" value="10" step=1>
+  </div>
+
+  <div class="mb-3">
+    <label for="InputAssistImpactPerformance" class="form-label">On a scale from very negative to very positive, how would you describe the impact of the annotation assistance on the quality of the annotations?</label>
+    <input type="range" class="form-range" name="InputAssistImpactPerformance" min="0" max="20" value="10" step=1>
+  </div>
+
+  <div class="mb-3">
+    <label for="InputAssistImpactComfort" class="form-label">On a scale from very negative to very positive, how would you describe the impact of the annotation assistance on the comfort while performing annotation tasks?</label>
+    <input type="range" class="form-range" name="InputAssistImpactComfort" min="0" max="20" value="10" step=1>
+  </div>
+
+
+
+  <div class="mb-3">
+    <label for="InputFeedbackTool" class="form-label">Do you have feedback about the tool in general? (optional)</label>
+    <textarea class="form-control" name="InputFeedbackTool" rows="5"></textarea>
+  </div>
+  
+  <div class="mb-3">
+    <label for="InputFeedbackAssist" class="form-label">Do you have feedback about the annotation assistance? (optional)</label>
+    <textarea class="form-control" name="InputFeedbackAssist" rows="5"></textarea>
+  </div>
+  
+  <div class="mb-3">
+    <label for="InputSuggestions" class="form-label">Do you have suggestions to improve the tool? (optional)</label>
+    <textarea class="form-control" name="InputSuggestions" rows="5"></textarea>
+  </div>
+  
+
+  <div class="text-center mt-2 mb-5">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
+
+{% endblock %}

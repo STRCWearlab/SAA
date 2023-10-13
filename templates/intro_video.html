@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="row text-center mt-3"><h3>INTRODUCTION</h3></div>
+
+<div class="row mt-3 mb-4"><p>Please take your time to watch the introduction video. Feel free to pause or navigate back in the video if you struggled to understand something. Please refrain from asking the research assistant about the instructions provided. If anything remains unclear you will have the opportunity to provide feedback at the end of the study.</p></div>
+
+<video width="700" height="394" controls>
+  <source src="{{ url_for('static', filename='uploads/video/intro.mp4') }}" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+<div class="row mt-4"><p>You are not expected to perfectly identify every activity shown. Data captured includes noise and device malfunctions. If you're unsure, perform the annotation in a way that seems reasonable to you.</p></div>
+
+
+<div class="row mt-3"><h4>Hotkey Overview:</h4></div>
+
+<div class="row mt-3">
+
+  <div class="col text-end">
+    <p>Arrow Left</p>
+    <p>Arrow Right</p>
+    <p>Space</p>
+    <p>Delete</p>
+    <p>Escape</p>
+    
+  </div>
+
+  <div class="col-10 text-start">
+    <p>Jump to previous frame</p>
+    <p>Jump to next frame</p>
+    <p>Start/Pause playback</p>
+    <p>Remove current annotation or active suggestion</p>
+    <p>Cancel current annotation or active suggestion</p>
+    
+  </div>
+
+</div>
+
+
+<div class="form-check mt-5">
+    <input class="form-check-input" type="checkbox" value="" id="checkConfirm">
+    <label class="form-check-label" for="checkConfirm">
+        I confirm that I have watched the introduction video.
+    </label>
+</div>
+
+<form action="/" method="post">
+  <div class="text-center mt-2 mb-5">
+    <input type="submit" class="btn btn-primary" id="btn1" disabled="" value="Submit"/>
+  </div> 
+</form>
+
+{% endblock %}
+
+{% block script %}
+<script>
+$('.form-check-input').change(function() {
+    if ($('.form-check-input:checked').length > 0) {
+      $('#btn1').prop('disabled', false);
+    } else {
+      $('#btn1').prop('disabled', true);
+    }
+  });
+</script>
+{% endblock %}

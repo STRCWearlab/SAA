@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="row text-center mt-3"><h3>TASK DESCRIPTION</h3></div>
+
+{% if scenario == "0" %}
+
+<div class="row mt-3"><p>You are now given the opportunity to familarise yourself with the annotation tool. Once you feel ready click the close tab on the top of the screen to continue. We expect you to spend no more than 10 minutes on this.</p></div>
+
+{% else %}
+
+<div class="row mt-3"><p>You are now asked to perform an annotation task on the recorded sensor signals for 20 minutes. Please begin at the start and work your way towards the end. Don't worry if time runs out before you finish annotating the material. If you happen to be done before the time runs out you can use the close tab on top of the screen.</p></div>
+
+{% endif %}
+
+
+
+{% if AI %}
+
+<div class="row mt-3"><p>The annotation will be assisted in this task.</p></div>
+
+{% else %}
+
+<div class="row mt-3"><p>The annotation will <b>not</b> be assisted in this task.</p></div>
+
+{% endif %}
+
+
+<div class="text-center mt-2 mb-5">
+  <input type="button" class="btn btn-primary" id="btn1" onclick=start_task() value="Start Task"></input>
+</div> 
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+  async function start_task(){
+    let btn = document.getElementById('btn1')
+    btn.disabled = true;
+    btn.value = "Starting Task..."
+    await fetch("{{ url_for('index') }}" , {method: "POST"})
+    location.reload();
+  }
+</script>
+{% endblock %}

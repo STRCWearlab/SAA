@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <!-- Javascript -->
+    <script>
+
+    // Interfaces
+    const url_current_labels = "{{ url_for('current_labels') }}";
+    const url_current_prediction = "{{ url_for('current_prediction') }}";
+    const url_submit_anno = "{{ url_for('submit_anno') }}";
+    const url_play_settings  = "{{ url_for('IO_settings') }}";
+    const url_logging = "{{ url_for('log_js') }}";
+    
+
+    function get_video_url(frame){return "{{ url_for('video_frame', frame='0') }}".replace("0",frame);}
+    function get_signal_data_url(start,stop,samples){ return "/signal_data/"+String(start)+"_"+String(stop)+"_"+String(samples); }
+    
+    // Button images
+    const url_btn_img_start     = "{{ url_for('static', filename='img/nav/btn/jmp_start.png') }}";
+    const url_btn_img_prev      = "{{ url_for('static', filename='img/nav/btn/prev.png') }}";
+    const url_btn_img_pause     = "{{ url_for('static', filename='img/nav/btn/pause.png') }}";
+    const url_btn_img_play      = "{{ url_for('static', filename='img/nav/btn/play.png') }}";
+    const url_btn_img_next      = "{{ url_for('static', filename='img/nav/btn/next.png') }}";
+    const url_btn_img_end       = "{{ url_for('static', filename='img/nav/btn/jmp_end.png') }}";
+    const url_btn_img_zoom_in   = "{{ url_for('static', filename='img/nav/btn/zoom_in.png') }}";
+    const url_btn_img_zoom_out  = "{{ url_for('static', filename='img/nav/btn/zoom_out.png') }}";
+    const url_btn_img_cancel    = "{{ url_for('static', filename='img/nav/btn/cancel.png') }}";
+
+    </script>
+
+    <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/popper.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/collections.min.js')}}"></script>
+
+    <script src="{{url_for('static', filename='js/utils.js')}}"></script>
+    <script src="{{url_for('static', filename='js/UI_backend.js')}}"></script>
+    <script src="{{url_for('static', filename='js/UI_output.js')}}"></script>
+    <script src="{{url_for('static', filename='js/UI_input.js')}}"></script>
+    <script src="{{url_for('static', filename='js/UI_setup.js')}}"></script>
+    <script src="{{url_for('static', filename='js/keyboard.js')}}"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/favicon/apple-touch-icon.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon/favicon-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/favicon/favicon-16x16.png')}}">
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest')}}">
+
+    <title>SAA</title>
+
+</head>
+
+<body onLoad="Setup('{{page}}')">
+
+<!-- NavBar -->
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{{ url_for('index') }}">SAA</a>
+    </div>
+      
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <!-- <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('index') }}">SAA</span></a>
+        </li> -->
+        {% if not modus["hide_settings"] %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('view_settings') }}">Settings</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('view_logging') }}">Logging</span></a>
+        </li>
+        {% endif %}
+        {% if modus["close_button"] %}
+        <li class="nav-item">
+          <a class="nav-link" onclick="openCloseDialog()">Close</span></a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+</div>
+
+
+<!-- Tool Page -->
+{% if page=="Tool" %}
+<div class="container">
+
+  <div class="row mt-3">
+    <div class="col text-center">
+      <h3 class=""><item id="text_page_header"></item></h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col text-center">
+      <p><item id="text_page_subheader"></item></p>
+      <!-- <p>Dimension: <item id="text_video_width">0</item>x<item id="text_video_height">0</item> | Frame: <item id="text_frame_current">-1</item>/<item id="text_frame_count">0</item> | FPS: <item id="text_video_fps">0</item></p> -->
+    </div>
+  </div>
+
+  <!-- Display Video -->
+  <div class="row video">
+    <span class="border border-secondary no-margin">
+    <div class="col text-center" id="add_video_frames">
+      <img class="video_frame">
+      <img class="video_frame">
+      <img class="video_frame">
+    </div>
+  </span>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <div class="row align-items-center mt-3">
+    <!-- div class="col text-end">
+      <form method="post" action="/">
+        <input id="btn_load_video" name="load_video" value="Load Video" class="btn btn-primary" type="submit">
+      </form>
+    </div-->
+
+
+    <div class="col-4 text-center">
+      <div class="d-flex align-items-center ">  <!-- Use flexbox for inline alignment -->
+        <label for="text_playspeed" style="font-size:15px" class="me-1">Speed:</label> <!-- added me-1 for spacing -->
+        <input type="number" id="input_playspeed" min="0" max="100" step="0.1" data-bind="value:replyNumber" class="form-control" style="width: 5em;">
+        <div class="range-field" style="margin-left:5px">
+          <input id="slider_playspeed" type="range" min="0" max="100" value="50" class="form-range">
+        </div>
+        <!-- bg-transparent btn-outline-light -->
+        <button id="btn_cancel" onclick="globSettings.cancel_move(del_pred=true)" class="btn btn-primary bg-transparent btn-outline-light">
+          <img id="img_btn_cancel" src="" width="20">
+        </button>
+      </div>
+    </div>
+
+
+    <div class="col-3 mx-auto text-center">
+      {% if  not modus["study"] %}
+      <button id="btn_jmp_start" onclick="globSettings.moveFirst()" class="btn btn-primary">
+        <img id="img_btn_jmp_start" src="" width="20">
+      </button>
+      {% endif %}
+      
+      <button id="btn_prev" onclick="globSettings.movePrev()" class="btn btn-primary">
+        <img id="img_btn_prev" src="" width="20">
+      </button>
+
+      <button id="btn_toggle_play" onclick="globSettings.togglePlay('Button')" class="btn btn-primary">
+        <img id="img_btn_toggle_play" src="" width="20">
+      </button>
+
+      <button id= "btn_next" onclick="globSettings.moveNext()" class="btn btn-primary">
+        <img id="img_btn_next" src="" width="20">
+      </button>
+
+      {% if  not modus["study"] %}
+      <button id=  "btn_jmp_end" onclick="globSettings.moveLast()" class="btn btn-primary">
+        <img id="img_btn_jmp_end" src="" width="20">
+      </button>
+      {% endif %}
+    </div>
+
+
+    <div class="col-4 text-end">
+      <button id="zoom_out" onclick="globSettings.zoom_out()" class="btn btn-primary">
+        <img id="img_btn_zoom_out" width="20">
+      </button>
+
+      <button id="zoom_in" onclick="globSettings.zoom_in()" class="btn btn-primary">
+        <img id="img_btn_zoom_in" width="20">
+      </button>
+    </div>
+
+    <!-- div class="col text-start">
+      <form method="post" action="/">
+        <input id="btn_load_signal" name="load_signal" value="Load Signal" class="btn btn-primary" type="submit">
+      </form>
+    </div-->
+  </div>
+
+  <!-- Display Signal + annotation -->
+  <div class="row signal mt-3 bg-secondary">
+
+    <!-- Display Signal -->
+    <span class="border border-secondary no-margin">
+      <div id="canvas_div" class="row text-center no-margin" width="100%" height="100px">
+        <canvas class='no-margin' id="signal_canvas"></canvas>
+      </div>
+    </span>
+
+    <!-- Display Annotation -->
+    <span class="border border-secondary no-margin" style="padding: 0px 0px; position: relative; margin-top: -1px">
+      <div class="row text-center" id="box_annotations" style="height: 24px;"></div>
+    </span>
+
+    <!--input id="slider" class="no-margin" type="range" min=0 max=30000 step=1></input-->
+    <!--select id="something"><option value="foo">Foo</option><option value="bar">Bar</option></select-->
+  </div>
+
+  <!-- Sample Slider -->
+  <div class="row align-items-center mt-1">
+    <div class="range-field">
+      <input id="slider_sample" type="range" min="0" max="100" value="0" step="0.01" class="form-range">
+    </div>
+  </div>
+
+</div>
+{% endif %}
+
+
+<!-- Settings Page -->
+{% if page=="Settings" and not modus["hide_settings"] %}
+<div class="container" id="SettingsDiv">
+  <div class="row mt-4">
+    <div class="col-4 text-center">
+      <h3 class="">Project Settings</h3>
+    </div>
+    <div class="col-4 text-center">
+      <h3 class="">Options</h3>
+    </div>
+    <div class="col-4 text-center">
+      <h3 class="">Details</h3>
+    </div>
+  </div>
+
+  <div class="row justify-content-start mt-3">
+
+    <div class="col-2 text-end">
+      <h5 class="">Sample Rate (Hz):</h5>
+    </div>
+    <div class="col-2">
+      <input id="Set_sample_rate" name="sample_rate" type="number" step="0.1" size=5 />
+    </div>
+
+    <div class="col-2 text-end">
+      <h5 class="">Current Sample:</h5>
+    </div>
+    <div class="col-2">
+      <input id="Set_cur_sample" name="sample_cur" type="number" step="1" size=5 />
+    </div>
+
+    <div class="col-2 text-end">
+      <h5 class="">Sample Count:</h5>
+    </div>
+    <div class="col-2">
+      <h5 id="Set_out_sample_number" name="sample_number" class="fill_in"></h5>
+    </div>
+
+  </div>
+
+  <div class="row justify-content-start mt-3">
+
+    <div class="col-2 text-end">
+      <h5 class="">Video Offset:</h5>
+    </div>
+    <div class="col-2">
+      <input id="Set_out_in_video_offset" name="video_offset" type="number" min=0 step="1" size=5 />
+    </div>
+
+    <div class="col-2 text-end">
+      <h5 class="">Playback Speed:</h5>
+    </div>
+    <div class="col-2">
+      <input id="Set_in_play_speed" name="play_speed" type="number" min=0 step="0.5" size=5 />
+    </div>
+
+    <div class="col-2 text-end">
+      <h5 class="">Video Name:</h5>
+    </div>
+    <div class="col-2">
+      <h5 id="Set_out_video_name" name="video_name" class="fill_in"></h5>
+    </div>
+
+  </div>
+
+  <div class="row justify-content-start mt-3">
+
+    <div class="col-2 text-end">
+      <h5 class="">Recording FPS:</h5>
+    </div>
+    <div class="col-2">
+      <input id="Set_in_FPS" name="FPS" type="number" min=0 step="0.1" size=5 />
+    </div>
+
+    <div class="col-2 text-end">
+      <h5 class="">Buffer Rate:</h5>
+    </div>
+    <div class="col-2">
+      <input id="Set_in_buffer_rate" name="buffer_rate" type="number" min=0 step="0.1" size=5 />
+    </div>
+
+    <div class="col-2 text-end">
+      <h5 class="">Video FPS:</h5>
+    </div>
+    <div class="col-2">
+      <h5 id="Set_out_video_fps" name="video_fps" class="fill_in"></h5>
+    </div>
+
+  </div>
+
+  <div class="row justify-content-end mt-3">
+
+    <div class="col-2 text-end">
+      <h5 class="">Refresh Rate:</h5>
+    </div>
+    <div class="col-2">
+      <input id="Set_in_refresh_rate" name="refresh_rate" type="number" min=0 step="0.1" size=5 />
+    </div>
+
+    <div class="col-2 text-end">
+      <h5 class="">Video Width:</h5>
+    </div>
+    <div class="col-2">
+      <h5 id="Set_out_video_width" name="video_width" class="fill_in"></h5>
+    </div>
+
+  </div>
+
+  <div class="row justify-content-start mt-3">
+
+    <div class="col-2 text-end">
+      <h5 class="">Zoom Factor:</h5>
+    </div>
+    <div class="col-2">
+      <input id="Set_in_zoom_factor" name="zoom_factor" type="number" min=0 step="0.1" size=5 />
+    </div>
+
+    <div class="col-2 text-end">
+      <h5 class="">Signal Zoom:</h5>
+    </div>
+    <div class="col-2">
+      <input id="Set_in_signal_zoom" name="signal_zoom" type="number" min=0 step="0.1" size=5 />
+    </div>
+
+    <div class="col-2 text-end">
+      <h5 class="">Video Height:</h5>
+    </div>
+    <div class="col-2">
+      <h5 id="Set_out_video_height" name="video_height" class="fill_in"></h5>
+    </div>
+
+  </div>
+
+  <div class="row justify-content-end mt-3">
+
+    <div class="col-2 text-end">
+      <h5 class="">Max play FPS:</h5>
+    </div>
+    <div class="col-2">
+      <input id="Set_in_max_play_speed" name="max_play_speed" type="number" min=0 step="1" size=5 />
+    </div>
+
+    <div class="col-2 text-end">
+      <h5 class=""></h5>
+    </div>
+    <div class="col-2">
+
+    </div>
+
+    <div class="col-2 text-end">
+      <h5 class="">Video Frames:</h5>
+    </div>
+    <div class="col-2">
+      <h5 id="Set_out_frame_number" name="frame_number" class="fill_in"></h5>
+    </div>
+
+  </div>
+
+  
+
+</div>
+{% endif %}
+
+<!-- Logging Page -->
+{% if page=="Logging" and not modus["hide_settings"] %}
+<div class="container">
+  <div class="row mt-4">
+    <div class="col text-center">
+      <h3 class="">Options</h3>
+    </div>
+  </div>
+
+  <div id="logBoxes" class="row justify-content-center mt-1">
+    <!-- Checkboxes created by JS -->
+  </div>
+</div>
+{% endif %}
+
+<!-- Popup Modals -->
+<div class="modal" id="modal_annotation" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h5 class="modal-title">Select Activity</h5>
+
+        <button class="close" data-dismiss="modal" aria-label="Close" onclick="closeAnno()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+
+        {% if not modus["restrict_labels"] %}
+        <div class="row">
+
+          <div class="col-md-auto">
+            <input type="text" id="text_new_anno"></input>
+          </div>
+
+          <div class="col-md-1">
+            <button class="btn btn-primary" id="btn_anno_add" onclick="selectAnno($('#text_new_anno').val())">Add</button>
+          </div>
+
+        </div>
+        {% endif %}
+
+        <div class="row mt-1">
+          <select class="form-select" id="anno_select" size=9 onDblClick="selectAnno(this.value)">
+            <option value="_none_">No Label</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="modal-footer justify-content-between">
+
+        <button class="btn btn-primary" id="btn_anno_select" onclick="selectAnno($('#anno_select option:selected').val())">Select</button>
+        <button class="btn btn-secondary" id="btn_anno_delete" data-dismiss="modal" onclick="deleteAnno()">Delete</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal_close" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmation required</h5>
+        <form action="{{ url_for('index') }}">
+          <button type="submit" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </form>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to close the trial?</p>
+      </div>
+      <div class="modal-footer">
+        <button onclick="globSettings.close_tool();" class="btn btn-primary">Yes</button>
+        <form>
+          <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+{% block script %}{% endblock %}
+</html>

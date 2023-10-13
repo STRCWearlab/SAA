@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block body %}
+    <form action="{{ url_for('enter_name') }}" method="post">
+        <div class="row d-flex align-items-center justify-content-center" style="height: 450px;">
+            <div class="col-2 justify-content-right">
+                <input type="text" class="form-control" name="project_name" placeholder="Please enter participant ID">
+            </div>
+            <div class="col-2 justify-content-left">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- <div class="container d-flex align-items-center justify-content-center" style="height: 450px;"> -->
+    <!-- </div> -->
+{% endblock %}
